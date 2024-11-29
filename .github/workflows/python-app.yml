@@ -1,0 +1,38 @@
+name: python unittest ci-cd pipeline
+
+# trigger workflow on any push to the main branch or pull request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# task to perform on the branch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+     
+    steps:
+      # step 1 : check out the code from the repo
+      - name: check out the code
+        uses: actions/checkout@v2
+      
+      # step 2 : setup python env
+      - name: set up python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      
+      # step 3 : install dependencies
+      - name: Install depedencies
+        run: | 
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # step 4 : Run test
+      - name: Run tests
+        run: pytest
+ 
+    
